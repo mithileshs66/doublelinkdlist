@@ -1,0 +1,173 @@
+#include<iostream>
+#include<stdio.h>
+#include<stdlib.h>
+
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node * left ;
+    struct node * right;
+};
+
+
+struct node * head=NULL;
+
+
+int lenght()
+{   int count=0;
+    struct node * temp=head;
+  while(temp->right!=NULL)
+  {
+      temp=temp->right;
+      count=count+1;
+  }
+  
+    return count;
+    
+}
+
+
+void insertatbegin(int x)
+{
+    struct node * temp=(struct node*)malloc(sizeof(struct node));
+    temp->data=x;
+    temp->left=NULL;
+    temp->right=NULL;
+    if(head==NULL)
+    {
+        head=temp;
+    }
+    else
+    {
+        temp->right=head;
+        head->left=temp;
+          head=temp;    
+        
+    }
+}
+
+void insertatany(int x)
+
+{ struct node * temp=(struct node * )malloc(sizeof(struct node));
+        struct node * ptr=head;
+    int loc,i=1,count;
+    count=lenght();
+    cout<<"Enter the location";
+    cin>>loc;
+    if(loc>count)
+    {
+        cout<<"invalid";
+    }
+    else
+    {  
+    while(i<loc)
+    {
+        ptr=ptr->right;
+        i++;
+    }
+         temp->data=x;
+         temp->right=ptr->right;
+         ptr->right=temp;
+         temp->left=ptr;
+         
+         
+       }
+}
+
+void traverse()
+{
+    struct node * ptr=head;
+    while(ptr->right!=NULL)
+    {
+        cout<<ptr->data<<"->";
+        ptr=ptr->right;
+        
+    }
+    cout<<ptr->data;
+}
+void traverselast()
+{
+    struct node * ptr=head;
+    
+    while(ptr->right!=NULL)
+    {
+        
+       ptr=ptr->right;
+        
+    }
+    while(ptr->left!=NULL)
+    {
+        cout<<ptr->data<<"->";
+        ptr=ptr->left;
+        
+    }
+    cout<<ptr->data;
+}
+void deletion()
+{ int loc,i,count;
+  count=lenght();
+  cout<<"Enter the loc";
+  cin>>loc;
+  if(loc>count)
+  {
+      cout<<"Invalid";
+  }
+  else if(loc==1)
+  {
+      struct node * temp=head;
+      head=head->right;
+      head->left=NULL;
+      temp->right=NULL;
+      free(head);
+  }
+  else
+  {  struct node * p=head;
+      while(i<loc-1)
+      {
+          p=p->right;
+          i++;
+      }
+     struct node * q,*r;
+     q=p->right;
+     r=q->right;
+     r->left=p;
+     p->right=r;
+     q->left=NULL;
+     q->right=NULL;
+     free(q);
+      }
+  
+  
+    
+}
+
+int main()
+{
+    int ch,x;
+    while(1)
+    {cout<<"\nEnter\n1.insert\n2.insertatany\n3.traverse\n4.traverselast\n5.deletion\n6.exit";
+    cin>>ch;
+    switch(ch)
+    {
+        case 1: cout<<"\nEnter the value";
+              cin>>x;
+              insertatbegin( x);
+              break;
+        case 2:cout<<"\nEnter the value";
+              cin>>x;
+              insertatany( x);
+              break;      
+        case 3: traverse();
+             break;
+        case 4:traverselast();
+                break;
+        case 5:deletion();
+              break;
+        case 6: exit(0);
+        default:cout<<"Wrong option";
+    }}
+
+    return 0;
+}
